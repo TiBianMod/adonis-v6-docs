@@ -38,8 +38,9 @@ Also, TypeScript plays a considerable role when designing the framework's APIs. 
 AdonisJS embraces the classic MVC design pattern. You start by defining the routes using the functional JavaScript API, bind controllers to them and write logic to handle the HTTP requests within the controllers.
 
 ```ts
+// title: start/routes.ts
 import router from '@adonisjs/core/services/router'
-import PostsController from '#controllers/posts_controller'
+const PostsController = () => import(`'#controllers`/posts_controller')
 
 router.get('posts', [PostsController, 'index'])
 ```
@@ -47,8 +48,9 @@ router.get('posts', [PostsController, 'index'])
 Controllers can use models to fetch data from the database and render a view (aka template) as a response.
 
 ```ts
-import { HttpContext } from '@adonisjs/core/http'
+// title: app/controllers/posts_controller.ts
 import Post from '#models/post'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PostsController {
   async index({ view }: HttpContext) {
@@ -61,8 +63,9 @@ export default class PostsController {
 If you are building an API server, you can replace the view layer with a JSON response. But, the flow of handling and responding to the HTTP requests remains the same.
 
 ```ts
-import { HttpContext } from '@adonisjs/core/http'
+// title: app/controllers/posts_controller.ts
 import Post from '#models/post'
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PostsController {
   async index({ view }: HttpContext) {
